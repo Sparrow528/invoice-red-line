@@ -30,7 +30,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 @media (max-width:440px){.dim-grid-wrap{grid-template-columns:1fr}}
 
 .dim-section{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.dim-title{padding:12px 14px;font-size:14px;font-weight:700;color:#b45309;background:linear-gradient(135deg,#e8eaf6,#f0f4ff);border-bottom:1px solid #e0e7ff}
+.dim-title{padding:12px 14px;font-size:14px;font-weight:700;color:#b45309;background:linear-gradient(135deg,#fff7ed,#fffbeb);border-bottom:1px solid #fde68a}
 .dim-title .count{font-size:11px;font-weight:400;color:#888;margin-left:4px}
 
 /* 每条清单 */
@@ -47,7 +47,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .btn-group button.sel-no{background:#dc2626;color:#fff;border-color:#dc2626}
 
 /* 底部按钮 */
-.calc-btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#92400e,#d97706);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin:16px 0;box-shadow:0 2px 8px rgba(26,35,126,.2)}
+.calc-btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#92400e,#d97706);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin:16px 0;box-shadow:0 2px 8px rgba(146,64,14,.2)}
 .calc-btn:active{opacity:.85;transform:scale(.98)}
 
 /* 报告页 */
@@ -73,16 +73,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .danger-item{padding:10px 14px;background:#fff;border-left:4px solid #dc2626;margin-bottom:6px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 
 .contact-bar{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);color:#fff;border-radius:12px;padding:20px;text-align:center;margin:16px 0}
+.contact-bar .cta{display:inline-block;background:#fff;color:#302b63;padding:8px 24px;border-radius:20px;font-weight:600;font-size:13px;text-decoration:none;margin-top:8px}
+
 .back-link-wrap{text-align:center;padding:16px;margin-top:4px}
 .back-link{display:inline-block;background:#e8eaf6;color:#b45309;padding:10px 24px;border-radius:8px;font-size:13px;text-decoration:none;border:1px solid #c5cae9;transition:.2s}
-.back-link:hover{background:#dde0f2;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.contact-bar .cta{display:inline-block;background:#fff;color:#302b63;padding:8px 24px;border-radius:20px;font-weight:600;font-size:13px;text-decoration:none;margin-top:8px}
+.back-link:hover{background:#dde0f2}
 
 .help-section{background:#fff;border-radius:12px;padding:18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .help-section h3{font-size:14px;color:#b45309;margin-bottom:8px}
 .help-section p{font-size:13px;color:#555;line-height:1.8;margin-bottom:4px}
 .help-section .rule{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
 .help-section .rule:last-child{border:none}
+
+/* 清空按钮 */
+.clear-btn{display:block;width:100%;padding:10px;background:#fff;color:#888;border:1px dashed #ddd;border-radius:8px;font-size:12px;cursor:pointer;margin-bottom:8px;text-align:center;transition:.2s}
+.clear-btn:active{background:#f5f5f5}
 </style>
 </head>
 <body>
@@ -94,13 +99,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 </div>
 
 <div class="tab-bar">
-  <div class="tab active" onclick="switchTab('fill')">📝 自查 <span class="badge" id="doneCount">0</span></div>
+  <div class="tab active" onclick="switchTab('fill')">📝 自查 <span class="badge" id="doneCount">0/44</span></div>
   <div class="tab" onclick="switchTab('report')">📊 报告</div>
   <div class="tab" onclick="switchTab('help')">💡 说明</div>
 </div>
 
 <div class="content">
 <div id="fill" class="active">
+  <button class="clear-btn" onclick="clearAll()">🗑️ 清除所有选择</button>
   <div id="itemsContainer"></div>
   <button class="calc-btn" onclick="calcReport()">📊 查看自查报告</button>
 </div>
@@ -123,8 +129,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
   <div class="help-section">
     <h3>📊 评分规则</h3>
-    <div class="rule"><span>正面清单得分</span><span>满分40分</span></div>
-    <div class="rule"><span>负面清单得分</span><span>满分60分</span></div>
+    <div class="rule"><span>正面清单得分</span><span>满分40分（16项 × 2.5分）</span></div>
+    <div class="rule"><span>负面清单得分</span><span>满分60分（28项 × 2.14分）</span></div>
     <div class="rule"><span>总分</span><span>满分100分</span></div>
   </div>
   <div class="help-section">
@@ -132,12 +138,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <div class="rule"><span>🟢 ≥90</span><span>合规状况良好</span></div>
     <div class="rule"><span>🟡 75~89</span><span>基本合规，有提升空间</span></div>
     <div class="rule"><span>🟠 60~74</span><span>存在一定合规风险</span></div>
-    <div class="rule"><span>🔴 <60</span><span>合规风险较高</span></div>
-  </div>
+    <div class="rule"><span>🔴 &lt;60</span><span>合规风险较高</span></div>
   </div>
 </div>
-
-
+</div>
 
 <div class="back-link-wrap"><a class="back-link" href="https://sparrow528.github.io/checkup-landing/">← 返回免费工具入口</a></div>
 
@@ -146,11 +150,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <div style="font-size:12px;opacity:.8;margin-bottom:8px">升级会员享完整分析 + 一对一咨询</div>
     <a class="cta" href="https://sparrow528.github.io/tax-membership/" target="_blank">👉 了解会员方案</a>
     <div style="margin-top:8px;font-size:11px;opacity:.6">宇守信投资管理咨询（北京）有限公司 · 洪淳宇 · 186-0129-4989</div>
-  </div>
-</div>
 </div>
 
 <script>
+// ===== 数据：44条（正面16+负面28）=====
 const DIMS = [
   {name:"一、开票、受票主体是否合规", items:[
     {id:"正1",t:"在市场监管部门依法注册，税务登记状态正常",p:true},
@@ -159,11 +162,11 @@ const DIMS = [
     {id:"正4",t:"按时足额申报缴纳各项税费，实际税负水平在合理范围内",p:true},
     {id:"正5",t:"资金管理严格，通过银行对公账户结算，资金流向与合同、发票一致",p:true},
     {id:"正6",t:"实名办税人员完成身份验证后开具发票，开票人员与实际经营人员匹配",p:true},
-    {id:"正7",t:'六员（法人/财务/办税人/投资人/领票人/开票人）信息真实有效',p:true},
+    {id:"正7",t:"六员（法人/财务/办税人/投资人/领票人/开票人）信息真实有效",p:true},
     {id:"正8",t:"开具或取得发票可提供合同、履约凭证、收付款单据等完整佐证资料",p:true},
     {id:"负1",t:"盗用、冒用或购买他人身份信息并虚假注册经营主体",p:false},
     {id:"负2",t:"一址多户注册、集中批量注册无实际经营活动的空壳企业",p:false},
-    {id:"负3",t:'无实际办公场地、无社保参保人员、无水电消耗、无固定资产的"四无"企业',p:false},
+    {id:"负3",t:'无实际办公场地、无社保参保人员、无水电流水消耗、无固定资产的四无企业',p:false},
     {id:"负4",t:"计税依据明显偏低，税负明显低于正常水平",p:false},
     {id:"负5",t:"违规代开、违规挂靠开票、借用或冒用身份开票等主体错位行为",p:false},
     {id:"负6",t:"开票金额大而员工极少，无经营活动相匹配的外部凭证",p:false},
@@ -206,126 +209,156 @@ const DIMS = [
   ]},
 ];
 
-let idx = 0;
+// ===== 渲染 =====
 function render() {
-  let html = '';
-  html += '<div class="dim-grid-wrap">';
-  DIMS.forEach(dim => {
-    html += '<div class="dim-section"><div class="dim-title">' + dim.name + ' <span class="count">(' + dim.items.length + '项)</span></div>';
-    dim.items.forEach(item => {
+  var idx = 0;
+  var html = '<div class="dim-grid-wrap">';
+  DIMS.forEach(function(dim) {
+    html += '<div class="dim-section">';
+    html += '<div class="dim-title">' + dim.name + ' <span class="count">(' + dim.items.length + '项)</span></div>';
+    dim.items.forEach(function(item) {
       idx++;
       html += '<div class="item-row">';
       html += '<span class="idx">' + idx + '</span>';
-      html += '<span class="code ' + (item.p?'pos':'neg') + '">' + item.id + '</span>';
+      html += '<span class="code ' + (item.p ? 'pos' : 'neg') + '">' + item.id + '</span>';
       html += '<span class="text">' + item.t + '</span>';
-      html += '<div class="btn-group" data-id="' + item.id + '" data-pos="' + (item.p?'1':'0') + '">';
+      html += '<div class="btn-group" data-idx="' + idx + '" data-id="' + item.id + '" data-pos="' + (item.p ? '1' : '0') + '">';
       html += '<button onclick="sel(this,1)">✓</button>';
       html += '<button onclick="sel(this,0)">✗</button>';
-      html += '</div>';
-      html += '</div>';
+      html += '</div></div>';
     });
     html += '</div>';
   });
   html += '</div>';
   document.getElementById('itemsContainer').innerHTML = html;
-}
-
-function sel(el, val) {
-  const grp = el.parentNode;
-  grp.querySelectorAll('button').forEach(b => b.className='');
-  el.className = val===1 ? 'sel-yes' : 'sel-no';
-  grp.dataset.val = val;
   updateCount();
 }
 
+// ===== 选择 =====
+function sel(el, val) {
+  var grp = el.parentNode;
+  var btns = grp.querySelectorAll('button');
+  btns.forEach(function(b) { b.className = ''; });
+  el.className = val === 1 ? 'sel-yes' : 'sel-no';
+  grp.dataset.val = String(val);
+  updateCount();
+}
+
+// ===== 更新计数 =====
 function updateCount() {
-  const allBtns = document.querySelectorAll('.btn-group[data-val]');
-  document.getElementById('doneCount').textContent = allBtns.length;
+  var done = document.querySelectorAll('.btn-group[data-val]').length;
+  var total = document.querySelectorAll('.btn-group').length;
+  document.getElementById('doneCount').textContent = done + '/' + total;
 }
 
+// ===== 清除所有 =====
+function clearAll() {
+  if (!confirm('确认清除所有选择？')) return;
+  document.querySelectorAll('.btn-group').forEach(function(g) {
+    delete g.dataset.val;
+    g.querySelectorAll('button').forEach(function(b) { b.className = ''; });
+  });
+  updateCount();
+}
+
+// ===== 获取值 =====
 function getVal(id) {
-  const grp = document.querySelector('.btn-group[data-id="'+id+'"]');
-  return grp ? parseInt(grp.dataset.val||'-1') : -1;
+  var grp = document.querySelector('.btn-group[data-id="' + id + '"]');
+  if (!grp || !grp.dataset.val) return -1;
+  return parseInt(grp.dataset.val);
 }
 
+// ===== 切换Tab =====
 function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.getAttribute('onclick').includes(name)));
-  document.querySelectorAll('.content>div').forEach(d=>d.classList.toggle('active',d.id===name));
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t) {
+    t.classList.toggle('active', t.textContent.includes(name === 'fill' ? '自查' : name === 'report' ? '报告' : '说明'));
+  });
+  var panels = document.querySelectorAll('.content > div');
+  panels.forEach(function(p) { p.classList.toggle('active', p.id === name); });
 }
 
+// ===== 计算报告 =====
 function calcReport() {
-  let posYes=0, posTotal=0, negNo=0, negTotal=0;
-  let dimData = {};
-  let dangers = [];
+  var posYes = 0, posTotal = 0, negNo = 0, negTotal = 0;
+  var dimData = {};
+  var dangers = [];
 
-  DIMS.forEach(dim => {
-    dimData[dim.name] = {total:0, safe:0, risk:0, items:[]};
-    dim.items.forEach(item => {
-      const v = getVal(item.id);
+  DIMS.forEach(function(dim) {
+    dimData[dim.name] = { total: 0, safe: 0, risk: 0, items: [] };
+    dim.items.forEach(function(item) {
+      var v = getVal(item.id);
       if (v === -1) return;
       dimData[dim.name].total++;
       if (item.p) {
         posTotal++;
-        if (v===1) { posYes++; dimData[dim.name].safe++; }
+        if (v === 1) { posYes++; dimData[dim.name].safe++; }
         else { dimData[dim.name].risk++; dimData[dim.name].items.push(item); }
       } else {
         negTotal++;
-        if (v===0) { negNo++; dimData[dim.name].safe++; }
+        if (v === 0) { negNo++; dimData[dim.name].safe++; }
         else { dimData[dim.name].risk++; dimData[dim.name].items.push(item); }
       }
     });
-    dimData[dim.name].items.forEach(item => {
-      dangers.push({dim:dim.name, item:item});
+    dimData[dim.name].items.forEach(function(item) {
+      dangers.push({ dim: dim.name, item: item });
     });
   });
 
-  const posScore = posTotal > 0 ? (posYes / posTotal * 40) : 0;
-  const negScore = negTotal > 0 ? (negNo / negTotal * 60) : 0;
-  const total = Math.round((posScore + negScore)*10)/10;
+  var posScore = posTotal > 0 ? (posYes / posTotal * 40) : 0;
+  var negScore = negTotal > 0 ? (negNo / negTotal * 60) : 0;
+  var total = Math.round((posScore + negScore) * 10) / 10;
 
-  let grade, gradeColor;
-  if (total >= 90) { grade='🟢 合规状况良好'; gradeColor='#16a34a'; }
-  else if (total >= 75) { grade='🟡 基本合规，有提升空间'; gradeColor='#d97706'; }
-  else if (total >= 60) { grade='🟠 存在一定合规风险'; gradeColor='#e65100'; }
-  else { grade='🔴 合规风险较高'; gradeColor='#dc2626'; }
+  var grade, gradeColor;
+  if (total >= 90) { grade = '🟢 合规状况良好'; gradeColor = '#16a34a'; }
+  else if (total >= 75) { grade = '🟡 基本合规，有提升空间'; gradeColor = '#d97706'; }
+  else if (total >= 60) { grade = '🟠 存在一定合规风险'; gradeColor = '#e65100'; }
+  else { grade = '🔴 合规风险较高'; gradeColor = '#dc2626'; }
 
-  let html = '';
+  var html = '';
+
+  // 总分
   html += '<div class="score-card">';
   html += '<div class="label">总分</div>';
   html += '<div class="num blue">' + total + '</div>';
-  html += '<div class="grade" style="background:'+gradeColor+'20;color:'+gradeColor+'">'+grade+'</div>';
+  html += '<div class="grade" style="background:' + gradeColor + '20;color:' + gradeColor + '">' + grade + '</div>';
   html += '</div>';
 
+  // 正面/负面
   html += '<div class="score-sub">';
-  html += '<div class="card"><div class="label">正面清单</div><div class="num" style="color:#16a34a">' + Math.round(posScore*10)/10 + '</div><div style="font-size:11px;color:#999">/ 40分</div></div>';
-  html += '<div class="card"><div class="label">负面清单</div><div class="num" style="color:#dc2626">' + Math.round(negScore*10)/10 + '</div><div style="font-size:11px;color:#999">/ 60分</div></div>';
+  html += '<div class="card"><div class="label">正面清单</div><div class="num" style="color:#16a34a">' + Math.round(posScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 40分</div></div>';
+  html += '<div class="card"><div class="label">负面清单</div><div class="num" style="color:#dc2626">' + Math.round(negScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 60分</div></div>';
   html += '</div>';
 
+  // 维度分析
   html += '<div class="dim-grid">';
-  for (const [name, dd] of Object.entries(dimData)) {
-    if (dd.total===0) continue;
-    const rate = Math.round(dd.safe/dd.total*100);
-    let st, stc;
-    if (rate >= 90) { st='✅ 良好'; stc='#16a34a'; }
-    else if (rate >= 70) { st='⚡ 注意'; stc='#d97706'; }
-    else { st='❌ 关注'; stc='#dc2626'; }
+  for (var name in dimData) {
+    var dd = dimData[name];
+    if (dd.total === 0) continue;
+    var rate = Math.round(dd.safe / dd.total * 100);
+    var st, stc;
+    if (rate >= 90) { st = '✅ 良好'; stc = '#16a34a'; }
+    else if (rate >= 70) { st = '⚡ 注意'; stc = '#d97706'; }
+    else { st = '❌ 关注'; stc = '#dc2626'; }
     html += '<div class="dim-card">';
     html += '<div><div class="dn">' + name + '</div><div class="dr">' + dd.safe + '/' + dd.total + ' 项合规</div></div>';
-    html += '<div><div class="ds" style="background:'+stc+'15;color:'+stc+'">' + st + '</div></div>';
+    html += '<div><div class="ds" style="background:' + stc + '15;color:' + stc + '">' + st + '</div></div>';
     html += '</div>';
   }
   html += '</div>';
 
+  // 需要关注的项目
   if (dangers.length > 0) {
     html += '<div style="font-size:14px;font-weight:700;color:#dc2626;margin:16px 0 8px">⚠️ 需要关注的 ' + dangers.length + ' 项</div>';
     html += '<div class="danger-list">';
-    dangers.forEach(d => {
-      const tag = d.item.p ? '正面-' + d.item.id : '负面-' + d.item.id;
-      html += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t+ '<br><span style="font-size:11px;color:#999">' + d.dim+ ' · <a href=\"https://sparrow528.github.io/invoice-case-db/?q=' + encodeURIComponent(tag) + '\" target=\"_blank\" style=\"color:#dc2626;text-decoration:underline;font-weight:600;\">查看处罚案例→</a>'+ '</span></div>';
+    dangers.forEach(function(d) {
+      var tag = d.item.p ? '正面-' + d.item.id : '负面-' + d.item.id;
+      html += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
     });
     html += '</div>';
   }
 
+  // 联系栏
   html += '<div class="contact-bar">';
   html += '<div style="font-size:14px;font-weight:600;margin-bottom:4px">需要专业财税顾问帮您看？</div>';
   html += '<div style="font-size:12px;opacity:.8;margin-bottom:8px">洪淳宇 · 186-0129-4989</div>';
@@ -333,152 +366,10 @@ function calcReport() {
   html += '</div>';
 
   document.getElementById('reportBody').innerHTML = html;
-  // 在报告底部加分享按钮
-  html += '<div style=\"text-align:center;padding:12px 0;\">';
-  html += '<button onclick=\"shareResult()\" style=\"background:linear-gradient(135deg,#92400e,#d97706);color:white;border:none;border-radius:10px;padding:12px 32px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(146,64,14,.3)\">📤 分享报告</button>';
-  html += '</div>';
-  document.getElementById('reportBody').innerHTML = html;
   switchTab('report');
 }
 
-function shareResult() {
-  // 重新计算
-  let posYes=0, posTotal=0, negNo=0, negTotal=0;
-  let dimData = {};
-  let dangers = [];
-
-  DIMS.forEach(dim => {
-    dimData[dim.name] = {total:0, safe:0, risk:0, items:[]};
-    dim.items.forEach(item => {
-      const v = getVal(item.id);
-      if (v === -1) return;
-      dimData[dim.name].total++;
-      if (item.p) {
-        posTotal++;
-        if (v===1) { posYes++; dimData[dim.name].safe++; }
-        else { dimData[dim.name].risk++; dimData[dim.name].items.push({...item}); }
-      } else {
-        negTotal++;
-        if (v===0) { negNo++; dimData[dim.name].safe++; }
-        else { dimData[dim.name].risk++; dimData[dim.name].items.push({...item}); }
-      }
-    });
-    dimData[dim.name].items.forEach(item => {
-      dangers.push({dim:dim.name, item:item});
-    });
-  });
-
-  const posScore = posTotal > 0 ? (posYes / posTotal * 40) : 0;
-  const negScore = negTotal > 0 ? (negNo / negTotal * 60) : 0;
-  const total = Math.round((posScore + negScore)*10)/10;
-
-  let grade, gradeColor;
-  if (total >= 90) { grade='🟢 合规状况良好'; gradeColor='#16a34a'; }
-  else if (total >= 75) { grade='🟡 基本合规，有提升空间'; gradeColor='#d97706'; }
-  else if (total >= 60) { grade='🟠 存在一定合规风险'; gradeColor='#e65100'; }
-  else { grade='🔴 合规风险较高'; gradeColor='#dc2626'; }
-
-  let sh = '<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\">';
-  sh += '<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">';
-  sh += '<title>发票合规正负面清单自查报告 - 宇守信咨询</title><style>';
-  sh += '*{margin:0;padding:0;box-sizing:border-box}';
-  sh += 'body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#333;padding:0 0 30px}';
-  sh += '.header{background:linear-gradient(135deg,#92400e,#d97706);color:white;padding:28px 20px 24px;text-align:center}';
-  sh += '.header h1{font-size:20px;font-weight:700;margin-bottom:4px}';
-  sh += '.header .sub{font-size:12px;opacity:.8}';
-  sh += '.header .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:10px;margin-top:6px}';
-  sh += '.content{padding:14px;max-width:580px;margin:0 auto}';
-  sh += '.score-card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:24px 20px;margin-bottom:16px;text-align:center}';
-  sh += '.score-card .label{font-size:13px;color:#888;margin-bottom:4px}';
-  sh += '.score-card .num{font-size:42px;font-weight:800;margin:6px 0}';
-  sh += '.score-card .grade{font-size:15px;font-weight:700;padding:6px 20px;border-radius:20px;display:inline-block;margin-top:6px}';
-  sh += '.score-sub{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}';
-  sh += '.score-sub .card{background:white;border-radius:12px;padding:18px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}';
-  sh += '.score-sub .card .label{font-size:12px;color:#888}';
-  sh += '.score-sub .card .num{font-size:24px;font-weight:700;margin:4px 0}';
-  sh += '.dim-grid{margin-top:12px}';
-  sh += '.dim-card{background:white;border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}';
-  sh += '.dim-card .dn{font-size:13px;font-weight:600;color:#333}';
-  sh += '.dim-card .dr{font-size:11px;color:#999;margin-top:2px}';
-  sh += '.dim-card .ds{font-size:11px;padding:3px 10px;border-radius:12px;white-space:nowrap}';
-  sh += '.danger-item{padding:10px 14px;background:white;border-left:4px solid #dc2626;margin-bottom:6px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;box-shadow:0 1px 3px rgba(0,0,0,.04)}';
-  sh += '.marketing{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);border-radius:14px;padding:22px 18px;text-align:center;color:white;margin:16px 0}';
-  sh += '.marketing h3{font-size:16px;font-weight:700;margin-bottom:4px}';
-  sh += '.marketing p{font-size:12px;opacity:.8;line-height:1.6;margin-bottom:10px}';
-  sh += '.marketing .btn{display:inline-block;background:white;color:#302b63;padding:9px 24px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none}';
-  sh += '.footer{text-align:center;padding:12px;font-size:10px;color:#999;line-height:1.6}';
-  sh += '@media (max-width:400px){.score-sub{grid-template-columns:1fr}}';
-  sh += '
-</head><body>';
-
-  sh += '<div class=\"header\">';
-  sh += '<h1>📋 发票合规正负面清单自查报告</h1>';
-  sh += '<div class=\"sub\">宇守信咨询 · 洪淳宇</div>';
-  sh += '<div class=\"badge\">报告生成时间：'+new Date().toLocaleString()+'</div></div>';
-
-  sh += '<div class=\"content\">';
-
-  // 总分
-  sh += '<div class=\"score-card\">';
-  sh += '<div class=\"label\">总分</div>';
-  sh += '<div class=\"num\" style=\"color:'+gradeColor+'\">'+total+'</div>';
-  sh += '<div class=\"grade\" style=\"background:'+gradeColor+'20;color:'+gradeColor+'\">'+grade+'</div></div>';
-
-  // 正面/负面
-  sh += '<div class=\"score-sub\">';
-  sh += '<div class=\"card\"><div class=\"label\">正面清单得分</div><div class=\"num\" style=\"color:#16a34a\">'+Math.round(posScore*10)/10+'</div><div style=\"font-size:11px;color:#999\">/ 40分</div></div>';
-  sh += '<div class=\"card\"><div class=\"label\">负面清单得分</div><div class=\"num\" style=\"color:#dc2626\">'+Math.round(negScore*10)/10+'</div><div style=\"font-size:11px;color:#999\">/ 60分</div></div></div>';
-
-  // 维度
-  sh += '<div class=\"dim-grid\">';
-  for (const [name, dd] of Object.entries(dimData)) {
-    if (dd.total===0) continue;
-    const rate = Math.round(dd.safe/dd.total*100);
-    let st, stc;
-    if (rate >= 90) { st='✅ 良好'; stc='#16a34a'; }
-    else if (rate >= 70) { st='⚡ 注意'; stc='#d97706'; }
-    else { st='❌ 关注'; stc='#dc2626'; }
-    sh += '<div class=\"dim-card\">';
-    sh += '<div><div class=\"dn\">'+name+'</div><div class=\"dr\">'+dd.safe+'/'+dd.total+' 项合规</div></div>';
-    sh += '<div><div class=\"ds\" style=\"background:'+stc+'15;color:'+stc+'\">'+st+'</div></div></div>';
-  }
-  sh += '</div>';
-
-  // 风险项
-  if (dangers.length > 0) {
-    sh += '<div style=\"font-size:14px;font-weight:700;color:#dc2626;margin:16px 0 8px\">⚠️ 需关注 '+dangers.length+' 项</div>';
-    sh += '<div class=\"danger-list\">';
-    dangers.forEach(function(d) {
-      const tag = d.item.p ? '正面-'+d.item.id : '负面-'+d.item.id;
-      sh += '<div class=\"danger-item\"><strong>['+tag+']</strong> '+d.item.t+'<br><span style=\"font-size:11px;color:#999\">'+d.dim+'</span></div>';
-    });
-    sh += '</div>';
-  }
-
-  // 营销
-  sh += '<div class=\"marketing\">';
-  sh += '<h3>🔒 免费版 · 基础发票合规自查</h3>';
-  sh += '<p>升级会员享完整合规分析 + 案例参考 + 一对一专家咨询</p>';
-  sh += '<a class=\"btn\" href=\"https://sparrow528.github.io/tax-membership/\" target=\"_blank\">👉 了解会员方案</a></div>';
-
-  sh += '<div style=\"background:white;border-radius:12px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:14px;\">';
-  sh += '<div style=\"font-size:13px;font-weight:700;color:#b45309;margin-bottom:4px;\">👤 洪淳宇 · 您身边的财税专家</div>';
-  sh += '<div style=\"font-size:11px;color:#666;line-height:1.6;\">专注发票合规、税务稽查应对、财税咨询服务</div>';
-  sh += '<div style=\"font-size:11px;color:#999;margin-top:6px;\">📞 186-0129-4989</div></div>';
-
-  sh += '<div style=\"font-size:10px;color:#bbb;text-align:center;line-height:1.6;margin-bottom:10px;\">';
-  sh += '* 本报告由发票合规正负面清单自查工具自动生成，仅供初步参考。<br>';
-  sh += '* 宇守信投资管理咨询（北京）有限公司 · 洪淳宇</div>';
-  sh += '</div></body></html>';
-
-  var win = window.open('', '_blank');
-  win.document.write(sh);
-  win.document.close();
-}
-
 render();
-
-
 </script>
 </body>
 </html>
