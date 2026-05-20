@@ -358,15 +358,150 @@ function calcReport() {
     html += '</div>';
   }
 
-  // 联系栏
-  html += '<div class="contact-bar">';
+  // 联系栏 + 分享按钮
+  html += '<div class="contact-bar" style="margin-bottom:12px">';
   html += '<div style="font-size:14px;font-weight:600;margin-bottom:4px">需要专业财税顾问帮您看？</div>';
   html += '<div style="font-size:12px;opacity:.8;margin-bottom:8px">洪淳宇 · 186-0129-4989</div>';
   html += '<a class="cta" href="https://sparrow528.github.io/tax-membership/" target="_blank">👉 了解会员方案</a>';
   html += '</div>';
 
+  // 分享按钮
+  html += '<div style="text-align:center;padding:4px 0 12px">';
+  html += '<button onclick="shareResult()" style="background:linear-gradient(135deg,#92400e,#d97706);color:white;border:none;border-radius:10px;padding:12px 32px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(146,64,14,.3)">📤 分享报告</button>';
+  html += '</div>';
+
   document.getElementById('reportBody').innerHTML = html;
   switchTab('report');
+}
+
+// ===== 分享报告（新窗口）=====
+function shareResult() {
+  var posYes = 0, posTotal = 0, negNo = 0, negTotal = 0;
+  var dimData = {};
+  var dangers = [];
+
+  DIMS.forEach(function(dim) {
+    dimData[dim.name] = { total: 0, safe: 0, risk: 0, items: [] };
+    dim.items.forEach(function(item) {
+      var v = getVal(item.id);
+      if (v === -1) return;
+      dimData[dim.name].total++;
+      if (item.p) {
+        posTotal++;
+        if (v === 1) { posYes++; dimData[dim.name].safe++; }
+        else { dimData[dim.name].risk++; dimData[dim.name].items.push(item); }
+      } else {
+        negTotal++;
+        if (v === 0) { negNo++; dimData[dim.name].safe++; }
+        else { dimData[dim.name].risk++; dimData[dim.name].items.push(item); }
+      }
+    });
+    dimData[dim.name].items.forEach(function(item) {
+      dangers.push({ dim: dim.name, item: item });
+    });
+  });
+
+  var posScore = posTotal > 0 ? (posYes / posTotal * 40) : 0;
+  var negScore = negTotal > 0 ? (negNo / negTotal * 60) : 0;
+  var total = Math.round((posScore + negScore) * 10) / 10;
+
+  var grade, gradeColor;
+  if (total >= 90) { grade = '合规状况良好'; gradeColor = '#16a34a'; }
+  else if (total >= 75) { grade = '基本合规，有提升空间'; gradeColor = '#d97706'; }
+  else if (total >= 60) { grade = '存在一定合规风险'; gradeColor = '#e65100'; }
+  else { grade = '合规风险较高'; gradeColor = '#dc2626'; }
+
+  // 同行报告 HTML
+  var h = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">';
+  h += '<meta name="viewport" content="width=device-width,initial-scale=1.0">';
+  h += '<title>发票合规正负面清单自查报告</title><style>';
+  h += '*{margin:0;padding:0;box-sizing:border-box}';
+  h += 'body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#333;padding:0 0 30px}';
+  h += '.header{background:linear-gradient(135deg,#92400e,#d97706);color:white;padding:28px 20px 24px;text-align:center}';
+  h += '.header h1{font-size:20px;font-weight:700;margin-bottom:4px}';
+  h += '.header .sub{font-size:12px;opacity:.8}';
+  h += '.header .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:10px;margin-top:6px}';
+  h += '.content{padding:14px;max-width:580px;margin:0 auto}';
+  h += '.score-card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:24px 20px;margin-bottom:16px;text-align:center}';
+  h += '.score-card .label{font-size:13px;color:#888;margin-bottom:4px}';
+  h += '.score-card .num{font-size:42px;font-weight:800;margin:6px 0}';
+  h += '.score-card .grade{font-size:15px;font-weight:700;padding:6px 20px;border-radius:20px;display:inline-block;margin-top:6px}';
+  h += '.score-sub{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}';
+  h += '.score-sub .card{background:white;border-radius:12px;padding:18px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}';
+  h += '.score-sub .card .label{font-size:12px;color:#888}';
+  h += '.score-sub .card .num{font-size:24px;font-weight:700;margin:4px 0}';
+  h += '.dim-grid{margin-top:12px}';
+  h += '.dim-card{background:white;border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}';
+  h += '.dim-card .dn{font-size:13px;font-weight:600;color:#333}';
+  h += '.dim-card .dr{font-size:11px;color:#999;margin-top:2px}';
+  h += '.dim-card .ds{font-size:11px;padding:3px 10px;border-radius:12px;white-space:nowrap}';
+  h += '.danger-item{padding:10px 14px;background:white;border-left:4px solid #dc2626;margin-bottom:6px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;box-shadow:0 1px 3px rgba(0,0,0,.04)}';
+  h += '.marketing{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);border-radius:14px;padding:22px 18px;text-align:center;color:white;margin:16px 0}';
+  h += '.marketing h3{font-size:16px;font-weight:700;margin-bottom:4px}';
+  h += '.marketing p{font-size:12px;opacity:.8;line-height:1.6;margin-bottom:10px}';
+  h += '.marketing .btn{display:inline-block;background:white;color:#302b63;padding:9px 24px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none}';
+  h += '.footer{text-align:center;padding:12px;font-size:10px;color:#999;line-height:1.6}';
+  h += '@media (max-width:400px){.score-sub{grid-template-columns:1fr}}';
+  h += '</style></head><body>';
+
+  h += '<div class="header">';
+  h += '<h1>📋 发票合规正负面清单自查报告</h1>';
+  h += '<div class="sub">宇守信咨询 · 洪淳宇</div>';
+  h += '<div class="badge">' + new Date().toLocaleString() + '</div></div>';
+
+  h += '<div class="content">';
+  h += '<div class="score-card">';
+  h += '<div class="label">总分</div>';
+  h += '<div class="num" style="color:' + gradeColor + '">' + total + '</div>';
+  h += '<div class="grade" style="background:' + gradeColor + '20;color:' + gradeColor + '">' + grade + '</div></div>';
+
+  h += '<div class="score-sub">';
+  h += '<div class="card"><div class="label">正面清单得分</div><div class="num" style="color:#16a34a">' + Math.round(posScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 40分</div></div>';
+  h += '<div class="card"><div class="label">负面清单得分</div><div class="num" style="color:#dc2626">' + Math.round(negScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 60分</div></div></div>';
+
+  h += '<div class="dim-grid">';
+  for (var name in dimData) {
+    var dd = dimData[name];
+    if (dd.total === 0) continue;
+    var rate = Math.round(dd.safe / dd.total * 100);
+    var st, stc;
+    if (rate >= 90) { st = '良好'; stc = '#16a34a'; }
+    else if (rate >= 70) { st = '注意'; stc = '#d97706'; }
+    else { st = '关注'; stc = '#dc2626'; }
+    h += '<div class="dim-card">';
+    h += '<div><div class="dn">' + name + '</div><div class="dr">' + dd.safe + '/' + dd.total + ' 项合规</div></div>';
+    h += '<div><div class="ds" style="background:' + stc + '15;color:' + stc + '">' + st + '</div></div></div>';
+  }
+  h += '</div>';
+
+  if (dangers.length > 0) {
+    h += '<div style="font-size:14px;font-weight:700;color:#dc2626;margin:16px 0 8px">⚠️ 需关注 ' + dangers.length + ' 项</div>';
+    h += '<div class="danger-list">';
+    dangers.forEach(function(d) {
+      var tag = d.item.p ? '正面-' + d.item.id : '负面-' + d.item.id;
+      h += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
+    });
+    h += '</div>';
+  }
+
+  h += '<div class="marketing">';
+  h += '<h3>🔒 免费版 · 基础发票合规自查</h3>';
+  h += '<p>升级会员享完整合规分析 + 案例参考 + 一对一专家咨询</p>';
+  h += '<a class="btn" href="https://sparrow528.github.io/tax-membership/" target="_blank">👉 了解会员方案</a></div>';
+
+  h += '<div style="background:white;border-radius:12px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:14px">';
+  h += '<div style="font-size:13px;font-weight:700;color:#b45309;margin-bottom:4px">👤 洪淳宇 · 您身边的财税专家</div>';
+  h += '<div style="font-size:11px;color:#666;line-height:1.6">专注发票合规、税务稽查应对、财税咨询服务</div>';
+  h += '<div style="font-size:11px;color:#999;margin-top:6px">📞 186-0129-4989</div></div>';
+
+  h += '<div style="font-size:10px;color:#bbb;text-align:center;line-height:1.6;margin-bottom:10px">';
+  h += '* 本报告由发票合规正负面清单自查工具自动生成，仅供初步参考。<br>';
+  h += '* 宇守信投资管理咨询（北京）有限公司 · 洪淳宇</div>';
+  h += '</div></body></html>';
+
+  var win = window.open('', '_blank');
+  win.document.write(h);
+  win.document.close();
 }
 
 render();
