@@ -209,7 +209,55 @@ const DIMS = [
   ]},
 ];
 
-// ===== 渲染 =====
+// ===== 风险点数据（来自发票合规案例库）=====
+const NEG_RISK = [
+  {id:"负1",text:"盗用、冒用或购买他人身份信息虚假注册",law:"市场主体登记管理条例第18条",level:"high"},
+  {id:"负2",text:"一址多户注册空壳企业",law:"市场主体登记管理条例第18条",level:"high"},
+  {id:"负3",text:'"四无"企业开票',law:"发票管理办法第22条",level:"high"},
+  {id:"负4",text:"税负明显偏低",law:"税收征管法第63条",level:"mid"},
+  {id:"负5",text:"违规代开/挂靠开票",law:"发票管理办法第22条",level:"high"},
+  {id:"负6",text:"开票金额大员工极少",law:"发票管理办法第22条",level:"high"},
+  {id:"负7",text:"有销无进/进销倒挂",law:"税收征管法第63条",level:"high"},
+  {id:"负8",text:"个人账户收款未申报",law:"税收征管法第63条",level:"mid"},
+  {id:"负9",text:"非实名人员开票",law:"发票管理办法实施细则第24条",level:"mid"},
+  {id:"负10",text:"六员异常任职",law:"发票管理办法第21条",level:"mid"},
+  {id:"负11",text:"涉税中介违规操作",law:"涉税专业服务监管办法",level:"mid"},
+  {id:"负12",text:"无业务虚开发票",law:"发票管理办法第22条+刑法第205条",level:"high"},
+  {id:"负13",text:"擅自代开发票",law:"发票管理办法第22条",level:"high"},
+  {id:"负14",text:"发票内容与实际不符",law:"发票管理办法第23条",level:"mid"},
+  {id:"负15",text:"拆分合同/阴阳合同开票",law:"税收征管法第63条",level:"high"},
+  {id:"负16",text:"无许可开特定行业发票",law:"相关行业法规",level:"mid"},
+  {id:"负17",text:"四流不一致/进销不匹配",law:"发票管理办法第22条",level:"high"},
+  {id:"负18",text:"对开/环开发票",law:"发票管理办法第21条",level:"high"},
+  {id:"负19",text:"长亏不倒依赖外部输血",law:"税收征管法第63条",level:"mid"},
+  {id:"负20",text:"利用优惠政策虚开",law:"发票管理办法第41条",level:"high"},
+  {id:"负21",text:"多个体户集中开票",law:"发票管理办法第22条",level:"high"},
+  {id:"负22",text:"错误选择发票种类",law:"发票管理办法第23条",level:"low"},
+  {id:"负23",text:"变名开票/备注栏不合规",law:"发票管理办法第23条",level:"mid"},
+  {id:"负24",text:"篡改伪造发票信息",law:"发票管理办法第24条+第38条",level:"high"},
+  {id:"负25",text:"恶意红冲发票",law:"发票管理办法第27条",level:"mid"},
+  {id:"负26",text:"提前/滞后开票调节收入",law:"发票管理办法第21条",level:"mid"},
+  {id:"负27",text:"变更法人前后集中开票",law:"发票管理办法第22条",level:"high"},
+  {id:"负28",text:"静默经营后集中开票走逃",law:"发票管理办法第22条+刑法第205条",level:"high"},
+];
+
+// ===== 获取风险点详情 =====
+function getRiskInfo(id) {
+  return NEG_RISK.find(function(r) { return r.id === id; });
+}
+function getRiskLevelLabel(level) {
+  if (level === 'high') return '🔴 高风险';
+  if (level === 'mid') return '🟡 中风险';
+  return '🟢 低风险';
+}
+function getRiskLevelColor(level) {
+  if (level === 'high') return '#dc2626';
+  if (level === 'mid') return '#e65100';
+  return '#16a34a';
+}
+function getCaseLink(negId) {
+  return 'https://sparrow528.github.io/tax-case/?q=' + encodeURIComponent(negId);
+}
 function render() {
   var idx = 0;
   var html = '<div class="dim-grid-wrap">';
@@ -347,14 +395,28 @@ function calcReport() {
   }
   html += '</div>';
 
-  // 需要关注的项目
+  // 需要关注的项目（含风险提示和案例库链接）
   if (dangers.length > 0) {
     html += '<div style="font-size:14px;font-weight:700;color:#dc2626;margin:16px 0 8px">⚠️ 需要关注的 ' + dangers.length + ' 项</div>';
     html += '<div class="danger-list">';
     dangers.forEach(function(d) {
       var tag = d.item.p ? '正面-' + d.item.id : '负面-' + d.item.id;
-      html += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
+      var riskInfo = d.item.p ? null : getRiskInfo(d.item.id);
+      var riskHtml = '';
+      if (riskInfo) {
+        riskHtml = '<div style="font-size:11px;margin-top:3px">';
+        riskHtml += '<span style="color:' + getRiskLevelColor(riskInfo.level) + ';font-weight:600">' + getRiskLevelLabel(riskInfo.level) + '</span>';
+        riskHtml += ' · <span style="color:#888">' + riskInfo.law + '</span>';
+        riskHtml += ' · <a href="' + getCaseLink(d.item.id) + '" target="_blank" style="color:#065f46;font-weight:600;text-decoration:underline">📂 查看案例</a>';
+        riskHtml += '</div>';
+      }
+      html += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + riskHtml + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
     });
+    html += '</div>';
+
+    // 查看完整案例库
+    html += '<div style="text-align:center;padding:6px 0 10px">';
+    html += '<a href="https://sparrow528.github.io/tax-case/" target="_blank" style="display:inline-block;background:#e8eaf6;color:#065f46;padding:8px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">📚 查看完整案例库 →</a>';
     html += '</div>';
   }
 
@@ -479,8 +541,22 @@ function shareResult() {
     h += '<div class="danger-list">';
     dangers.forEach(function(d) {
       var tag = d.item.p ? '正面-' + d.item.id : '负面-' + d.item.id;
-      h += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
+      var riskInfo = d.item.p ? null : getRiskInfo(d.item.id);
+      var riskHtml = '';
+      if (riskInfo) {
+        riskHtml = '<div style="font-size:11px;margin-top:3px">';
+        riskHtml += '<span style="color:' + getRiskLevelColor(riskInfo.level) + ';font-weight:600">' + getRiskLevelLabel(riskInfo.level) + '</span>';
+        riskHtml += ' · <span style="color:#888">' + riskInfo.law + '</span>';
+        riskHtml += ' · <a href="' + getCaseLink(d.item.id) + '" target="_blank" style="color:#065f46;font-weight:600;text-decoration:underline">📂 查看案例</a>';
+        riskHtml += '</div>';
+      }
+      h += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + riskHtml + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
     });
+    h += '</div>';
+
+    // 查看完整案例库
+    h += '<div style="text-align:center;padding:6px 0 10px">';
+    h += '<a href="https://sparrow528.github.io/tax-case/" target="_blank" style="display:inline-block;background:#e8eaf6;color:#065f46;padding:8px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">📚 查看完整案例库 →</a>';
     h += '</div>';
   }
 
