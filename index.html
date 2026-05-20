@@ -258,6 +258,43 @@ function getRiskLevelColor(level) {
 function getCaseLink(negId) {
   return 'https://sparrow528.github.io/tax-case/?q=' + encodeURIComponent(negId);
 }
+
+// ===== 案例数据（来自发票合规案例库）=====
+const CASE_DATA = [
+  {id:"CASE-001",name:"某商贸公司虚开发票案",org:"北京市税务局",result:"罚款50万元，移送司法机关",neg:"负12"},
+  {id:"CASE-002",name:"某制造企业环开发票案",org:"上海市税务局",result:"追缴税款+罚款合计180万元",neg:"负18"},
+  {id:"CASE-003",name:"某空壳公司集中开票案",org:"广州市税务局",result:"移送公安机关立案侦查",neg:"负2"},
+  {id:"CASE-004",name:"某科技公司变名开票案",org:"深圳市税务局",result:"补税+罚款合计85万元",neg:"负23"},
+  {id:"CASE-005",name:"某个体户利用核定征收虚开案",org:"重庆市税务局",result:"取消核定征收+追缴税款+罚款120万元",neg:"负21"},
+  {id:"CASE-006",name:"云南某建材公司四无企业虚开案",org:"云南省税务局",result:"罚款50万元，移送公安机关立案侦查",neg:"负3,负28"},
+  {id:"CASE-007",name:"浙江某纺织企业税负偏低案",org:"浙江省税务局",result:"追缴增值税及附加180万元，罚款90万元",neg:"负4"},
+  {id:"CASE-008",name:"江苏某物流公司挂靠代开发票案",org:"江苏省税务局",result:"没收违法所得85万元，罚款133.5万元",neg:"负5"},
+  {id:"CASE-009",name:"深圳某贸易公司人少票多案",org:"深圳市税务局",result:"罚款50万元，收缴发票并注销发票领用资格",neg:"负6,负2"},
+  {id:"CASE-010",name:"山东某商贸公司非实名开票案",org:"山东省税务局",result:"责令改正，罚款3万元",neg:"负9"},
+  {id:"CASE-011",name:"四川某科技公司六员异常案",org:"四川省税务局",result:"追缴税款260万元，罚款130万元",neg:"负10,负1"},
+  {id:"CASE-012",name:"广东某财税公司中介违规案",org:"广东省税务局",result:"没收违法所得42万元，罚款50万元",neg:"负11"},
+  {id:"CASE-013",name:"湖南某加油站擅自代开发票案",org:"湖南省税务局",result:"没收违法所得18万元，罚款21.5万元",neg:"负13"},
+  {id:"CASE-014",name:"北京某房地产公司阴阳合同案",org:"北京市税务局",result:"追缴税款及附加460万元，罚款230万元",neg:"负15"},
+  {id:"CASE-015",name:"河北某教育公司无证开票案",org:"河北省税务局",result:"责令停止开票，罚款5万元",neg:"负16"},
+  {id:"CASE-016",name:"上海某贸易公司长亏不倒案",org:"上海市税务局",result:"追缴税款420万元，罚款300万元",neg:"负19,负7"},
+  {id:"CASE-017",name:"天津某餐饮企业错用票种案",org:"天津市税务局",result:"责令改正，补缴增值税及附加28万元",neg:"负22"},
+  {id:"CASE-018",name:"河南某医药公司篡改品名案",org:"河南省税务局",result:"罚款40万元，移送公安机关",neg:"负24"},
+  {id:"CASE-019",name:"福建某贸易公司恶意红冲案",org:"福建省税务局",result:"补缴企业所得税及附加390万元，罚款195万元",neg:"负25"},
+  {id:"CASE-020",name:"湖北某建筑企业跨期开票案",org:"湖北省税务局",result:"责令改正，补缴税款80万元加滞纳金",neg:"负26"},
+  {id:"CASE-021",name:"安徽某金属材料公司变更前开票案",org:"安徽省税务局",result:"限制发票领用量，移送公安机关",neg:"负27,负28"},
+  {id:"CASE-022",name:"江西某矿业公司四流不一致案",org:"江西省税务局",result:"进项转出620万元，补税及罚款合计420万元",neg:"负14,负17"},
+  {id:"CASE-023",name:"广西某农产品企业利用免税虚开案",org:"广西壮族自治区税务局",result:"追缴增值税510万元，罚款300万元",neg:"负20,负12"},
+  {id:"CASE-024",name:"辽宁某团伙冒用身份虚开案",org:"辽宁省税务局",result:"捣毁虚开团伙，抓获嫌疑人12名",neg:"负1,负2"},
+  {id:"CASE-025",name:"广东某集团对开环开案",org:"广东省税务局",result:"追缴税款及罚款合计1,380万元",neg:"负18,负7"},
+  {id:"CASE-026",name:"陕西某餐饮公司个人账户收款案",org:"陕西省税务局",result:"追缴税款及滞纳金560万元，罚款280万元",neg:"负8"},
+];
+
+// ===== 获取关联案例 =====
+function getRelatedCases(negId) {
+  return CASE_DATA.filter(function(c) {
+    return c.neg.split(',').map(function(x) { return x.trim(); }).indexOf(negId) !== -1;
+  });
+}
 function render() {
   var idx = 0;
   var html = '<div class="dim-grid-wrap">';
@@ -395,7 +432,7 @@ function calcReport() {
   }
   html += '</div>';
 
-  // 需要关注的项目（含风险提示和案例库链接）
+  // 需要关注的项目（含风险提示和关联案例）
   if (dangers.length > 0) {
     html += '<div style="font-size:14px;font-weight:700;color:#dc2626;margin:16px 0 8px">⚠️ 需要关注的 ' + dangers.length + ' 项</div>';
     html += '<div class="danger-list">';
@@ -407,8 +444,21 @@ function calcReport() {
         riskHtml = '<div style="font-size:11px;margin-top:3px">';
         riskHtml += '<span style="color:' + getRiskLevelColor(riskInfo.level) + ';font-weight:600">' + getRiskLevelLabel(riskInfo.level) + '</span>';
         riskHtml += ' · <span style="color:#888">' + riskInfo.law + '</span>';
-        riskHtml += ' · <a href="' + getCaseLink(d.item.id) + '" target="_blank" style="color:#065f46;font-weight:600;text-decoration:underline">📂 查看案例</a>';
         riskHtml += '</div>';
+        // 关联案例
+        var related = d.item.p ? [] : getRelatedCases(d.item.id);
+        if (related.length > 0) {
+          riskHtml += '<div style="margin-top:4px;padding:6px 8px;background:#f8fafb;border-radius:6px">';
+          riskHtml += '<div style="font-size:10px;color:#888;font-weight:600;margin-bottom:3px">📂 关联案例（' + related.length + '个）</div>';
+          related.forEach(function(c) {
+            riskHtml += '<div style="font-size:11px;color:#555;line-height:1.5;padding:2px 0;border-bottom:1px solid #eee">';
+            riskHtml += '<span style="font-weight:600;color:#333">' + c.name + '</span>';
+            riskHtml += ' <span style="color:#999">· ' + c.org + '</span>';
+            riskHtml += ' <span style="color:#dc2626">⚖️ ' + c.result + '</span>';
+            riskHtml += '</div>';
+          });
+          riskHtml += '</div>';
+        }
       }
       html += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + riskHtml + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
     });
@@ -547,8 +597,21 @@ function shareResult() {
         riskHtml = '<div style="font-size:11px;margin-top:3px">';
         riskHtml += '<span style="color:' + getRiskLevelColor(riskInfo.level) + ';font-weight:600">' + getRiskLevelLabel(riskInfo.level) + '</span>';
         riskHtml += ' · <span style="color:#888">' + riskInfo.law + '</span>';
-        riskHtml += ' · <a href="' + getCaseLink(d.item.id) + '" target="_blank" style="color:#065f46;font-weight:600;text-decoration:underline">📂 查看案例</a>';
         riskHtml += '</div>';
+        // 关联案例
+        var related = d.item.p ? [] : getRelatedCases(d.item.id);
+        if (related.length > 0) {
+          riskHtml += '<div style="margin-top:4px;padding:6px 8px;background:#f8fafb;border-radius:6px">';
+          riskHtml += '<div style="font-size:10px;color:#888;font-weight:600;margin-bottom:3px">📂 关联案例（' + related.length + '个）</div>';
+          related.forEach(function(c) {
+            riskHtml += '<div style="font-size:11px;color:#555;line-height:1.5;padding:2px 0;border-bottom:1px solid #eee">';
+            riskHtml += '<span style="font-weight:600;color:#333">' + c.name + '</span>';
+            riskHtml += ' <span style="color:#999">· ' + c.org + '</span>';
+            riskHtml += ' <span style="color:#dc2626">⚖️ ' + c.result + '</span>';
+            riskHtml += '</div>';
+          });
+          riskHtml += '</div>';
+        }
       }
       h += '<div class="danger-item"><strong>[' + tag + ']</strong> ' + d.item.t + riskHtml + '<br><span style="font-size:11px;color:#999">' + d.dim + '</span></div>';
     });
