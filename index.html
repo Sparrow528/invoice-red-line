@@ -6,10 +6,10 @@
 <title>发票合规正负面清单自查 - 宇守信咨询</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#2d3436;padding-bottom:80px}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#d8eed9 0%,#add8ad 60%,#e8f5e9 100%);color:#2d3436;padding-bottom:100px}
 
 /* 头部 */
-.header{background:linear-gradient(135deg,#065f46,#059669);color:#fff;padding:28px 20px 20px;text-align:center}
+.header{background:linear-gradient(135deg,#1a5c3a,#059669);color:#fff;padding:28px 20px 20px;text-align:center}
 .header h1{font-size:20px;font-weight:700;margin-bottom:4px}
 .header .sub{font-size:13px;opacity:.85;margin-bottom:2px}
 .header .src{font-size:11px;opacity:.65}
@@ -17,9 +17,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 /* Tab */
 .tab-bar{display:flex;background:#fff;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .tab-bar .tab{flex:1;text-align:center;padding:12px 0;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:3px solid transparent;transition:.2s}
-.tab-bar .tab.active{color:#065f46;border-bottom-color:#065f46}
+.tab-bar .tab.active{color:#1a5c3a;border-bottom-color:#1a5c3a}
 .tab-bar .tab .badge{display:inline-block;background:#e8ecf1;color:#888;border-radius:10px;padding:0 7px;font-size:10px;margin-left:3px}
-.tab-bar .tab.active .badge{background:#e0ecff;color:#065f46}
+.tab-bar .tab.active .badge{background:#e0ecff;color:#1a5c3a}
 
 .content{padding:12px;max-width:640px;margin:0 auto}
 .content>div{display:none}
@@ -30,7 +30,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 @media (max-width:440px){.dim-grid-wrap{grid-template-columns:1fr}}
 
 .dim-section{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.dim-title{padding:12px 14px;font-size:14px;font-weight:700;color:#065f46;background:linear-gradient(135deg,#eef6ff,#f0faff);border-bottom:1px solid #d0dcec}
+.dim-title{padding:12px 14px;font-size:14px;font-weight:700;color:#1a5c3a;background:linear-gradient(135deg,#f4faf6,#f0faff);border-bottom:1px solid #c5d5cc}
 .dim-title .count{font-size:11px;font-weight:400;color:#888;margin-left:4px}
 
 /* 每条清单 */
@@ -38,24 +38,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .item-row:last-child{border-bottom:none}
 .item-row .idx{color:#bbb;font-size:11px;min-width:22px;text-align:center;padding-top:2px;flex-shrink:0}
 .item-row .code{font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px;min-width:36px;text-align:center;flex-shrink:0}
-.code.pos{background:#e6f7e6;color:#16a34a}
+.code.pos{background:#e6f7e6;color:#059669}
 .code.neg{background:#feeaea;color:#dc2626}
 .item-row .text{flex:1;font-size:13px;line-height:1.6;color:#444}
 .btn-group{display:flex;gap:4px;flex-shrink:0}
 .btn-group button{width:30px;height:28px;border:1px solid #ddd;border-radius:5px;background:#f8f8f8;font-size:12px;cursor:pointer;transition:.15s;color:#999}
-.btn-group button.sel-yes{background:#16a34a;color:#fff;border-color:#16a34a}
+.btn-group button.sel-yes{background:#059669;color:#fff;border-color:#059669}
 .btn-group button.sel-no{background:#dc2626;color:#fff;border-color:#dc2626}
 
 /* 底部按钮 */
-.calc-btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#065f46,#059669);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin:16px 0;box-shadow:0 2px 8px rgba(74,144,217,.2)}
+.calc-btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1a5c3a,#059669);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin:16px 0;box-shadow:0 2px 8px rgba(74,144,217,.2)}
 .calc-btn:active{opacity:.85;transform:scale(.98)}
 
 /* 报告页 */
 .score-card{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:24px 20px;margin-bottom:16px;text-align:center}
 .score-card .label{font-size:13px;color:#888;margin-bottom:4px}
 .score-card .num{font-size:42px;font-weight:800;margin:6px 0}
-.score-card .num.green{color:#16a34a}
-.score-card .num.blue{color:#065f46}
+.score-card .num.green{color:#059669}
+.score-card .num.blue{color:#1a5c3a}
 .score-card .grade{font-size:15px;font-weight:700;padding:6px 20px;border-radius:20px;display:inline-block;margin-top:6px}
 
 .score-sub{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
@@ -72,15 +72,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .danger-list{margin:12px 0}
 .danger-item{padding:10px 14px;background:#fff;border-left:4px solid #dc2626;margin-bottom:6px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 
-.contact-bar{background:linear-gradient(135deg,#065f46,#059669);color:#fff;border-radius:12px;padding:20px;text-align:center;margin:16px 0}
-.contact-bar .cta{display:inline-block;background:#fff;color:#065f46;padding:8px 24px;border-radius:20px;font-weight:600;font-size:13px;text-decoration:none;margin-top:8px}
+.contact-bar{background:linear-gradient(135deg,#1a5c3a,#059669);color:#fff;border-radius:12px;padding:20px;text-align:center;margin:16px 0}
+.contact-bar .cta{display:inline-block;background:#fff;color:#1a5c3a;padding:8px 24px;border-radius:20px;font-weight:600;font-size:13px;text-decoration:none;margin-top:8px}
 
 .back-link-wrap{text-align:center;padding:16px;margin-top:4px}
-.back-link{display:inline-block;background:#e8eaf6;color:#065f46;padding:10px 24px;border-radius:8px;font-size:13px;text-decoration:none;border:1px solid #c5cae9;transition:.2s}
+.back-link{display:inline-block;background:#e8eaf6;color:#1a5c3a;padding:10px 24px;border-radius:8px;font-size:13px;text-decoration:none;border:1px solid #a8c4b5;transition:.2s}
 .back-link:hover{background:#dde0f2}
 
 .help-section{background:#fff;border-radius:12px;padding:18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.help-section h3{font-size:14px;color:#065f46;margin-bottom:8px}
+.help-section h3{font-size:14px;color:#1a5c3a;margin-bottom:8px}
 .help-section p{font-size:13px;color:#555;line-height:1.8;margin-bottom:4px}
 .help-section .rule{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
 .help-section .rule:last-child{border:none}
@@ -150,6 +150,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <div style="font-size:12px;opacity:.8;margin-bottom:8px">升级会员享完整分析 + 一对一咨询</div>
     <a class="cta" href="https://sparrow528.github.io/tax-membership/" target="_blank">👉 了解会员方案</a>
     <div style="margin-top:8px;font-size:11px;opacity:.6">宇守信投资管理咨询（北京）有限公司 · 洪淳宇 · 186-0129-4989</div>
+    <div style="font-size:10px;color:#999;margin-top:2px">版本 V3.0</div>
 </div>
 
 <script>
@@ -253,7 +254,7 @@ function getRiskLevelLabel(level) {
 function getRiskLevelColor(level) {
   if (level === 'high') return '#dc2626';
   if (level === 'mid') return '#e65100';
-  return '#16a34a';
+  return '#059669';
 }
 function getCaseLink(negId) {
   return 'https://sparrow528.github.io/tax-case/?q=' + encodeURIComponent(negId);
@@ -395,7 +396,7 @@ function calcReport() {
   var total = Math.round((posScore + negScore) * 10) / 10;
 
   var grade, gradeColor;
-  if (total >= 90) { grade = '🟢 合规状况良好'; gradeColor = '#16a34a'; }
+  if (total >= 90) { grade = '🟢 合规状况良好'; gradeColor = '#059669'; }
   else if (total >= 75) { grade = '🟡 基本合规，有提升空间'; gradeColor = '#d97706'; }
   else if (total >= 60) { grade = '🟠 存在一定合规风险'; gradeColor = '#e65100'; }
   else { grade = '🔴 合规风险较高'; gradeColor = '#dc2626'; }
@@ -411,7 +412,7 @@ function calcReport() {
 
   // 正面/负面
   html += '<div class="score-sub">';
-  html += '<div class="card"><div class="label">正面清单</div><div class="num" style="color:#16a34a">' + Math.round(posScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 40分</div></div>';
+  html += '<div class="card"><div class="label">正面清单</div><div class="num" style="color:#059669">' + Math.round(posScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 40分</div></div>';
   html += '<div class="card"><div class="label">负面清单</div><div class="num" style="color:#dc2626">' + Math.round(negScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 60分</div></div>';
   html += '</div>';
 
@@ -422,7 +423,7 @@ function calcReport() {
     if (dd.total === 0) continue;
     var rate = Math.round(dd.safe / dd.total * 100);
     var st, stc;
-    if (rate >= 90) { st = '✅ 良好'; stc = '#16a34a'; }
+    if (rate >= 90) { st = '✅ 良好'; stc = '#059669'; }
     else if (rate >= 70) { st = '⚡ 注意'; stc = '#d97706'; }
     else { st = '❌ 关注'; stc = '#dc2626'; }
     html += '<div class="dim-card">';
@@ -466,7 +467,7 @@ function calcReport() {
 
     // 查看完整案例库
     html += '<div style="text-align:center;padding:6px 0 10px">';
-    html += '<a href="https://sparrow528.github.io/tax-case/" target="_blank" style="display:inline-block;background:#e8eaf6;color:#065f46;padding:8px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">📚 查看完整案例库 →</a>';
+    html += '<a href="https://sparrow528.github.io/tax-case/" target="_blank" style="display:inline-block;background:#e8eaf6;color:#1a5c3a;padding:8px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">📚 查看完整案例库 →</a>';
     html += '</div>';
   }
 
@@ -479,7 +480,7 @@ function calcReport() {
 
   // 分享按钮
   html += '<div style="text-align:center;padding:4px 0 12px">';
-  html += '<button onclick="shareResult()" style="background:linear-gradient(135deg,#065f46,#059669);color:white;border:none;border-radius:10px;padding:12px 32px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(74,144,217,.3)">📤 分享报告</button>';
+  html += '<button onclick="shareResult()" style="background:linear-gradient(135deg,#1a5c3a,#059669);color:white;border:none;border-radius:10px;padding:12px 32px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(74,144,217,.3)">📤 分享报告</button>';
   html += '</div>';
 
   document.getElementById('reportBody').innerHTML = html;
@@ -518,7 +519,7 @@ function shareResult() {
   var total = Math.round((posScore + negScore) * 10) / 10;
 
   var grade, gradeColor;
-  if (total >= 90) { grade = '合规状况良好'; gradeColor = '#16a34a'; }
+  if (total >= 90) { grade = '合规状况良好'; gradeColor = '#059669'; }
   else if (total >= 75) { grade = '基本合规，有提升空间'; gradeColor = '#d97706'; }
   else if (total >= 60) { grade = '存在一定合规风险'; gradeColor = '#e65100'; }
   else { grade = '合规风险较高'; gradeColor = '#dc2626'; }
@@ -528,8 +529,8 @@ function shareResult() {
   h += '<meta name="viewport" content="width=device-width,initial-scale=1.0">';
   h += '<title>发票合规正负面清单自查报告</title><style>';
   h += '*{margin:0;padding:0;box-sizing:border-box}';
-  h += 'body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#333;padding:0 0 30px}';
-  h += '.header{background:linear-gradient(135deg,#065f46,#059669);color:white;padding:28px 20px 24px;text-align:center}';
+  h += 'body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#d8eed9 0%,#add8ad 60%,#e8f5e9 100%);color:#333;padding:0 0 30px}';
+  h += '.header{background:linear-gradient(135deg,#1a5c3a,#059669);color:white;padding:28px 20px 24px;text-align:center}';
   h += '.header h1{font-size:20px;font-weight:700;margin-bottom:4px}';
   h += '.header .sub{font-size:12px;opacity:.8}';
   h += '.header .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:10px;margin-top:6px}';
@@ -548,10 +549,10 @@ function shareResult() {
   h += '.dim-card .dr{font-size:11px;color:#999;margin-top:2px}';
   h += '.dim-card .ds{font-size:11px;padding:3px 10px;border-radius:12px;white-space:nowrap}';
   h += '.danger-item{padding:10px 14px;background:white;border-left:4px solid #dc2626;margin-bottom:6px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;box-shadow:0 1px 3px rgba(0,0,0,.04)}';
-  h += '.marketing{background:linear-gradient(135deg,#065f46,#059669);border-radius:14px;padding:22px 18px;text-align:center;color:white;margin:16px 0}';
+  h += '.marketing{background:linear-gradient(135deg,#1a5c3a,#059669);border-radius:14px;padding:22px 18px;text-align:center;color:white;margin:16px 0}';
   h += '.marketing h3{font-size:16px;font-weight:700;margin-bottom:4px}';
   h += '.marketing p{font-size:12px;opacity:.8;line-height:1.6;margin-bottom:10px}';
-  h += '.marketing .btn{display:inline-block;background:white;color:#065f46;padding:9px 24px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none}';
+  h += '.marketing .btn{display:inline-block;background:white;color:#1a5c3a;padding:9px 24px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none}';
   h += '.footer{text-align:center;padding:12px;font-size:10px;color:#999;line-height:1.6}';
   h += '@media (max-width:400px){.score-sub{grid-template-columns:1fr}}';
   h += '</style></head><body>';
@@ -568,7 +569,7 @@ function shareResult() {
   h += '<div class="grade" style="background:' + gradeColor + '20;color:' + gradeColor + '">' + grade + '</div></div>';
 
   h += '<div class="score-sub">';
-  h += '<div class="card"><div class="label">正面清单得分</div><div class="num" style="color:#16a34a">' + Math.round(posScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 40分</div></div>';
+  h += '<div class="card"><div class="label">正面清单得分</div><div class="num" style="color:#059669">' + Math.round(posScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 40分</div></div>';
   h += '<div class="card"><div class="label">负面清单得分</div><div class="num" style="color:#dc2626">' + Math.round(negScore * 10) / 10 + '</div><div style="font-size:11px;color:#999">/ 60分</div></div></div>';
 
   h += '<div class="dim-grid">';
@@ -577,7 +578,7 @@ function shareResult() {
     if (dd.total === 0) continue;
     var rate = Math.round(dd.safe / dd.total * 100);
     var st, stc;
-    if (rate >= 90) { st = '良好'; stc = '#16a34a'; }
+    if (rate >= 90) { st = '良好'; stc = '#059669'; }
     else if (rate >= 70) { st = '注意'; stc = '#d97706'; }
     else { st = '关注'; stc = '#dc2626'; }
     h += '<div class="dim-card">';
@@ -619,24 +620,33 @@ function shareResult() {
 
     // 查看完整案例库
     h += '<div style="text-align:center;padding:6px 0 10px">';
-    h += '<a href="https://sparrow528.github.io/tax-case/" target="_blank" style="display:inline-block;background:#e8eaf6;color:#065f46;padding:8px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">📚 查看完整案例库 →</a>';
+    h += '<a href="https://sparrow528.github.io/tax-case/" target="_blank" style="display:inline-block;background:#e8eaf6;color:#1a5c3a;padding:8px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">📚 查看完整案例库 →</a>';
     h += '</div>';
   }
 
   h += '<div class="marketing">';
-  h += '<h3>🔒 免费版 · 基础发票合规自查</h3>';
+  h += '<h3>🔒 共享版 · 基础发票合规自查</h3>';
   h += '<p>升级会员享完整合规分析 + 案例参考 + 一对一专家咨询</p>';
   h += '<a class="btn" href="https://sparrow528.github.io/tax-membership/" target="_blank">👉 了解会员方案</a></div>';
 
   h += '<div style="background:white;border-radius:12px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:14px">';
-  h += '<div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:4px">👤 洪淳宇 · 您身边的财税专家</div>';
+  h += '<div style="font-size:13px;font-weight:700;color:#1a5c3a;margin-bottom:4px">👤 洪淳宇 · 您身边的财税专家</div>';
   h += '<div style="font-size:11px;color:#666;line-height:1.6">专注发票合规、税务稽查应对、财税咨询服务</div>';
   h += '<div style="font-size:11px;color:#999;margin-top:6px">📞 186-0129-4989</div></div>';
 
   h += '<div style="font-size:10px;color:#bbb;text-align:center;line-height:1.6;margin-bottom:10px">';
   h += '* 本报告由发票合规正负面清单自查工具自动生成，仅供初步参考。<br>';
-  h += '* 宇守信投资管理咨询（北京）有限公司 · 洪淳宇</div>';
-  h += '</div></body></html>';
+  h += '* 宇守信投资管理咨询（北京）有限公司 · 洪淳宇<br>版本 V3.0</div>';
+  h += '</div>
+<div class="bottom-bar" style="position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:12px;color:#7aa88a;z-index:100">
+  <span style="font-weight:600;color:#4a7c5c">宇守信咨询</span>
+  <span style="color:#ccc">|</span>
+  <span>186-0129-4989</span>
+  <span style="color:#ccc">|</span>
+  <span>版本 V3.1</span>
+</div>
+
+</body></html>';
 
   var win = window.open('', '_blank');
   win.document.write(h);
@@ -645,5 +655,14 @@ function shareResult() {
 
 render();
 </script>
+
+<div class="bottom-bar" style="position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:12px;color:#7aa88a;z-index:100">
+  <span style="font-weight:600;color:#4a7c5c">宇守信咨询</span>
+  <span style="color:#ccc">|</span>
+  <span>186-0129-4989</span>
+  <span style="color:#ccc">|</span>
+  <span>版本 V3.1</span>
+</div>
+
 </body>
 </html>
