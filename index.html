@@ -321,7 +321,8 @@ function getRelatedCases(negId) {
 }
 function render() {
   var idx = 0;
-  var html = '<div class="dim-grid-wrap">';
+  var html = '<div style="background:#ff0;padding:8px;margin:0 0 8px;font-weight:bold;border:2px solid red">🔍 DEBUG: render执行了 | DIMS=' + DIMS.length + '组 | NEG_RISK=' + NEG_RISK.length + '条</div>';
+  html += '<div class="dim-grid-wrap">';
   DIMS.forEach(function(dim) {
     html += '<div class="dim-section">';
     html += '<div class="dim-title">' + dim.name + ' <span class="count">(' + dim.items.length + '项)</span></div>';
