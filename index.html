@@ -117,19 +117,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="content">
 <div id="fill" class="active">
   <button class="clear-btn" onclick="clearAll()">🗑️ 清除所有选择</button>
-  <!-- DEBUG: 写死测试数据栏 -->
-  <div class="test-debug" style="background:#fff;margin:8px 0;padding:8px;border-radius:8px">
-    <div class="item-row" style="display:flex;flex-wrap:wrap">
-      <span class="code neg" style="font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px;background:#feeaea;color:#dc2626">负1</span>
-      <span style="font-size:13px;flex:1">测试条目</span>
-      <div class="item-data" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:3px 0;font-size:10px;flex-basis:100%;padding-left:62px;box-sizing:border-box">
-        <span class="risk-tag high" style="background:#feeaea;color:#dc2626;padding:1px 7px;border-radius:3px;font-weight:700;font-size:10px">⚠️高风险</span>
-        <span style="color:#999;font-size:10px">发票管理办法第22条</span>
-        <span style="color:#1a5c3a;font-weight:600;font-size:10px">📂3案例</span>
-      </div>
-    </div>
-  </div>
-  <!-- DEBUG END -->
   <div id="itemsContainer"></div>
   <button class="calc-btn" onclick="calcReport()">📊 查看自查报告</button>
 </div>
@@ -321,8 +308,7 @@ function getRelatedCases(negId) {
 }
 function render() {
   var idx = 0;
-  var html = '<div style="background:#ff0;padding:8px;margin:0 0 8px;font-weight:bold;border:2px solid red">🔍 DEBUG: render执行了 | DIMS=' + DIMS.length + '组 | NEG_RISK=' + NEG_RISK.length + '条</div>';
-  html += '<div class="dim-grid-wrap">';
+  var html = '<div class="dim-grid-wrap">';
   DIMS.forEach(function(dim) {
     html += '<div class="dim-section">';
     html += '<div class="dim-title">' + dim.name + ' <span class="count">(' + dim.items.length + '项)</span></div>';
@@ -340,10 +326,10 @@ function render() {
       if (!item.p) {
         var ri = getRiskInfo(item.id);
         if (ri) {
-          var cases = getRelatedCases(item.id);
           html += '<div class="item-data">';
           html += '<span class="risk-tag ' + ri.level + '">' + getRiskLevelLabel(ri.level) + '</span>';
           html += '<span class="law-ref">' + ri.law + '</span>';
+          var cases = getRelatedCases(item.id);
           if (cases.length > 0) {
             html += '<a class="case-link" href="https://sparrow528.github.io/tax-case/?q=' + encodeURIComponent(item.id) + '" target="_blank">📂' + cases.length + '案例</a>';
           }
@@ -676,16 +662,15 @@ function shareResult() {
   h += '<div style="font-size:10px;color:#bbb;text-align:center;line-height:1.6;margin-bottom:10px">';
   h += '* 本报告由发票合规正负面清单自查工具自动生成，仅供初步参考。<br>';
   h += '* 宇守信投资管理咨询（北京）有限公司 · 洪淳宇<br>版本 V4.0</div>';
-  h += '</div>
-<div class="bottom-bar" style="position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:12px;color:#7aa88a;z-index:100">
-  <span style="font-weight:600;color:#4a7c5c">宇守信咨询</span>
-  <span style="color:#ccc">|</span>
-  <span>186-0129-4989</span>
-  <span style="color:#ccc">|</span>
-  <span>版本 V4.0</span>
-</div>
-
-</body></html>';
+  h += '</div>';
+  h += '<div class="bottom-bar" style="position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:12px;color:#7aa88a;z-index:100">';
+  h += '<span style="font-weight:600;color:#4a7c5c">宇守信咨询</span>';
+  h += '<span style="color:#ccc">|</span>';
+  h += '<span>186-0129-4989</span>';
+  h += '<span style="color:#ccc">|</span>';
+  h += '<span>版本 V4.0</span>';
+  h += '</div>';
+  h += '</body></html>';
 
   var win = window.open('', '_blank');
   win.document.write(h);
