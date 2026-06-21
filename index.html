@@ -46,6 +46,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .btn-group button.sel-yes{background:#059669;color:#fff;border-color:#059669}
 .btn-group button.sel-no{background:#dc2626;color:#fff;border-color:#dc2626}
 
+/* 数据栏（负面清单风险信息） */
+.item-data{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:3px 0 3px 62px;font-size:10px;line-height:1.4}
+.item-data .risk-tag{display:inline-block;padding:1px 7px;border-radius:3px;font-weight:700;font-size:10px;white-space:nowrap}
+.item-data .risk-tag.high{background:#feeaea;color:#dc2626}
+.item-data .risk-tag.mid{background:#fff3e0;color:#e65100}
+.item-data .risk-tag.low{background:#e6f7e6;color:#059669}
+.item-data .law-ref{color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.item-data .case-link{color:#1a5c3a;font-weight:600;cursor:pointer;white-space:nowrap}
+.item-data .case-link:hover{text-decoration:underline}
+
 /* 底部按钮 */
 .calc-btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1a5c3a,#059669);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin:16px 0;box-shadow:0 2px 8px rgba(74,144,217,.2)}
 .calc-btn:active{opacity:.85;transform:scale(.98)}
@@ -150,7 +160,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <div style="font-size:12px;opacity:.8;margin-bottom:8px">升级会员享完整分析 + 一对一咨询</div>
     <a class="cta" href="https://sparrow528.github.io/tax-membership/" target="_blank">👉 了解会员方案</a>
     <div style="margin-top:8px;font-size:11px;opacity:.6">宇守信投资管理咨询（北京）有限公司 · 洪淳宇 · 186-0129-4989</div>
-    <div style="font-size:10px;color:#999;margin-top:2px">版本 V3.0</div>
+    <div style="font-size:10px;color:#999;margin-top:2px">版本 V4.0</div>
 </div>
 
 <script>
@@ -311,7 +321,22 @@ function render() {
       html += '<div class="btn-group" data-idx="' + idx + '" data-id="' + item.id + '" data-pos="' + (item.p ? '1' : '0') + '">';
       html += '<button onclick="sel(this,1)">✓</button>';
       html += '<button onclick="sel(this,0)">✗</button>';
-      html += '</div></div>';
+      html += '</div>';
+      // 负面清单数据栏：风险等级 + 法条 + 关联案例数
+      if (!item.p) {
+        var ri = getRiskInfo(item.id);
+        if (ri) {
+          var cases = getRelatedCases(item.id);
+          html += '<div class="item-data">';
+          html += '<span class="risk-tag ' + ri.level + '">' + getRiskLevelLabel(ri.level) + '</span>';
+          html += '<span class="law-ref">' + ri.law + '</span>';
+          if (cases.length > 0) {
+            html += '<a class="case-link" href="https://sparrow528.github.io/tax-case/?q=' + encodeURIComponent(item.id) + '" target="_blank">📂' + cases.length + '案例</a>';
+          }
+          html += '</div>';
+        }
+      }
+      html += '</div>';
     });
     html += '</div>';
   });
@@ -636,14 +661,14 @@ function shareResult() {
 
   h += '<div style="font-size:10px;color:#bbb;text-align:center;line-height:1.6;margin-bottom:10px">';
   h += '* 本报告由发票合规正负面清单自查工具自动生成，仅供初步参考。<br>';
-  h += '* 宇守信投资管理咨询（北京）有限公司 · 洪淳宇<br>版本 V3.0</div>';
+  h += '* 宇守信投资管理咨询（北京）有限公司 · 洪淳宇<br>版本 V4.0</div>';
   h += '</div>
 <div class="bottom-bar" style="position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:12px;color:#7aa88a;z-index:100">
   <span style="font-weight:600;color:#4a7c5c">宇守信咨询</span>
   <span style="color:#ccc">|</span>
   <span>186-0129-4989</span>
   <span style="color:#ccc">|</span>
-  <span>版本 V3.1</span>
+  <span>版本 V4.0</span>
 </div>
 
 </body></html>';
@@ -661,7 +686,7 @@ render();
   <span style="color:#ccc">|</span>
   <span>186-0129-4989</span>
   <span style="color:#ccc">|</span>
-  <span>版本 V3.1</span>
+  <span>版本 V4.0</span>
 </div>
 
 </body>
