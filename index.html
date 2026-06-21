@@ -117,6 +117,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="content">
 <div id="fill" class="active">
   <button class="clear-btn" onclick="clearAll()">🗑️ 清除所有选择</button>
+  <!-- DEBUG: 写死测试数据栏 -->
+  <div class="test-debug" style="background:#fff;margin:8px 0;padding:8px;border-radius:8px">
+    <div class="item-row" style="display:flex;flex-wrap:wrap">
+      <span class="code neg" style="font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px;background:#feeaea;color:#dc2626">负1</span>
+      <span style="font-size:13px;flex:1">测试条目</span>
+      <div class="item-data" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:3px 0;font-size:10px;flex-basis:100%;padding-left:62px;box-sizing:border-box">
+        <span class="risk-tag high" style="background:#feeaea;color:#dc2626;padding:1px 7px;border-radius:3px;font-weight:700;font-size:10px">⚠️高风险</span>
+        <span style="color:#999;font-size:10px">发票管理办法第22条</span>
+        <span style="color:#1a5c3a;font-weight:600;font-size:10px">📂3案例</span>
+      </div>
+    </div>
+  </div>
+  <!-- DEBUG END -->
   <div id="itemsContainer"></div>
   <button class="calc-btn" onclick="calcReport()">📊 查看自查报告</button>
 </div>
